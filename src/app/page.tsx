@@ -2,6 +2,7 @@ import Image from "next/image";
 import Nav from "./Components/Nav";
 import StatisticCard from "./Components/StatisticCard";
 import CardData from "./Data/CardData";
+import Footer from "./Components/Footer";
 
 export default function Home() {
   return (
@@ -59,13 +60,30 @@ export default function Home() {
             Track how your links are performing across the web with <br /> our
             advanced statistics dashboard.
           </h2>
-          <div className="relative flex py-10 gap-5">
+          <div className="relative flex py-30 gap-5">
             <div className="absolute top-1/2 left-0 w-full h-2 bg-teal-400 -translate-y-1/2 z-0" />
             {CardData.map((e) => (
               <StatisticCard key={e.id} e={e} />
             ))}
           </div>
         </div>
+      </section>
+      <section className="bg-[#3a3053]">
+        <div className="flex justify-center items-center">
+          <div className="card w-full h-[250px] bg-[url('/bg-boost-desktop.svg')] bg-cover card-xl shadow-sm flex justify-center items-center">
+            <div className="card-body flex justify-center items-center gap-5">
+              <h2 className="card-title text-3xl font-extrabold">
+                Boost your links today
+              </h2>
+              <button className="btn btn-ghost rounded-4xl bg-teal-400 text-white hover:border-teal-700 w-[50%]">
+                Get Started
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section className="bg-[#232027]">
+        <Footer />
       </section>
     </main>
   );
