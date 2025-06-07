@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "URL Shortening",
-  description: "A simple url shortening page",
+  title: "Shortly",
+  description: "More than just short links!",
 };
 
 export default function RootLayout({
