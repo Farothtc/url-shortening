@@ -1,10 +1,30 @@
+"use client";
 import Image from "next/image";
 import Nav from "./Components/Nav";
 import StatisticCard from "./Components/StatisticCard";
 import CardData from "./Data/CardData";
 import Footer from "./Components/Footer";
+import axios from "axios";
+import { useState } from "react";
 
 export default function Home() {
+  const [shortUrl, setShortUrl] = useState("");
+  const [inputUrl, setInputUrl] = useState("");
+  const [error, setError] = useState("");
+
+  const connectAPI = async () => {
+    try {
+      const res = await axios.post("https://cleanuri.com/api/v1/shorten", {
+        url: inputUrl,
+      });
+      setShortUrl(res.data.result_url);
+      setError("");
+    } catch (err) {
+      setError("Operation failed.");
+      setShortUrl("");
+    }
+  };
+
   return (
     <main className="min-h-screen">
       <section className="bg-white">
@@ -41,10 +61,16 @@ export default function Home() {
               <div className="flex justify-center items-center gap-5 w-full px-10">
                 <input
                   type="text"
+                  name="input"
+                  value={inputUrl}
+                  onChange={(e) => setInputUrl(e.target.value)}
                   placeholder="Shorten a link here..."
-                  className="input w-full h-12 bg-white placeholder-gray-400 placeholder:tracking-wider placeholder:ps-3"
+                  className="input w-full h-12 bg-white placeholder-gray-400 placeholder:tracking-wider placeholder:ps-3 text-black"
                 />
-                <button className="btn btn-ghost rounded-lg bg-teal-400 text-white hover:border-teal-700 w-40 h-12 tracking-widest">
+                <button
+                  className="btn btn-ghost rounded-lg bg-teal-400 text-white hover:border-teal-700 w-40 h-12 tracking-widest"
+                  onClick={connectAPI}
+                >
                   Shorten It!
                 </button>
               </div>
