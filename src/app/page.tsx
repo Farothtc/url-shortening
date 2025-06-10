@@ -8,20 +8,25 @@ import axios from "axios";
 import { useState } from "react";
 
 export default function Home() {
-  const [shortUrl, setShortUrl] = useState("");
   const [inputUrl, setInputUrl] = useState("");
   const [error, setError] = useState("");
+  const [urlChunk, setUrlChunk] = useState<{ input: string; short: string }[]>(
+    []
+  );
+  const [copiedIdx, setCopiedIdx] = useState<number | null>(null);
 
   const connectAPI = async () => {
     try {
-      const res = await axios.post("https://cleanuri.com/api/v1/shorten", {
+      const res = await axios.post("/api/shorten", {
         url: inputUrl,
       });
-      setShortUrl(res.data.result_url);
       setError("");
+      setUrlChunk((prev) => [
+        ...prev,
+        { input: inputUrl, short: res.data.result_url },
+      ]);
     } catch (err) {
       setError("Operation failed.");
-      setShortUrl("");
     }
   };
 
@@ -39,7 +44,7 @@ export default function Home() {
               Build your brand&apos;s recognition and get detailed <br />{" "}
               insights on how your links are performing.
             </h2>
-            <button className="btn btn-ghost rounded-4xl bg-teal-400 text-white hover:border-teal-700 w-40 tracking-widest mt-3">
+            <button className="btn btn-ghost rounded-4xl bg-teal-400 text-white hover:border-teal-700 hover:bg-teal-200/90 w-40 tracking-widest mt-3">
               Get Started
             </button>
           </div>
@@ -59,16 +64,26 @@ export default function Home() {
           <div className="card w-full h-32 bg-[url('/bg-shorten-desktop.svg')] card-md ">
             <div className="card-body flex justify-center items-center">
               <div className="flex justify-center items-center gap-5 w-full px-10">
-                <input
-                  type="text"
-                  name="input"
-                  value={inputUrl}
-                  onChange={(e) => setInputUrl(e.target.value)}
-                  placeholder="Shorten a link here..."
-                  className="input w-full h-12 bg-white placeholder-gray-400 placeholder:tracking-wider placeholder:ps-3 text-black"
-                />
+                <div className="flex flex-col justify-start items-start w-full">
+                  <fieldset className="fieldset w-full">
+                    <input
+                      type="text"
+                      name="input"
+                      value={inputUrl}
+                      onChange={(e) => setInputUrl(e.target.value)}
+                      onBlur={() => setError("Please add a link")}
+                      placeholder="Shorten a link here..."
+                      className="input w-full h-12 bg-white placeholder-gray-400 placeholder:tracking-wider placeholder:ps-3 text-black"
+                    />
+                    {error && !inputUrl && (
+                      <p className="absolute top-[75%] label text-red-500 italic tracking-widest">
+                        {error}
+                      </p>
+                    )}
+                  </fieldset>
+                </div>
                 <button
-                  className="btn btn-ghost rounded-lg bg-teal-400 text-white hover:border-teal-700 w-40 h-12 tracking-widest"
+                  className="btn btn-ghost rounded-lg bg-teal-400 text-white hover:bg-teal-200/90 hover:border-teal-700 w-40 h-12 tracking-widest"
                   onClick={connectAPI}
                 >
                   Shorten It!
@@ -77,6 +92,36 @@ export default function Home() {
             </div>
           </div>
         </div>
+        {urlChunk.length > 0 && (
+          <div className="mx-auto pt-25 w-[65%] flex flex-col gap-4">
+            {urlChunk.map((item, idx) => (
+              <div key={idx} className="card w-full h-22 bg-white card-md">
+                <div className="card-body flex justify-center items-center">
+                  <div className="flex justify-between items-center w-full">
+                    <div className="text-black break-all">{item.input}</div>
+                    <div className="flex justify-center items-center gap-5">
+                      <div className="text-black break-all">{item.short}</div>
+                      <button
+                        className={`btn btn-ghost rounded-lg w-24 h-10 tracking-widest ${
+                          copiedIdx === idx
+                            ? "bg-black text-white"
+                            : "bg-teal-400 text-white hover:border-teal-700 hover:bg-teal-200/90"
+                        }`}
+                        onClick={() => {
+                          navigator.clipboard.writeText(item.short);
+                          setCopiedIdx(idx);
+                          setTimeout(() => setCopiedIdx(null), 1500);
+                        }}
+                      >
+                        {copiedIdx === idx ? "Copied!" : "Copy"}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
         {/* Statistics Part */}
         <div className="flex flex-col justify-center items-center gap-5">
           <h1 className=" text-4xl text-black pt-44 font-bold">
@@ -101,7 +146,7 @@ export default function Home() {
               <h2 className="card-title text-3xl font-extrabold">
                 Boost your links today
               </h2>
-              <button className="btn btn-ghost rounded-4xl bg-teal-400 text-white hover:border-teal-700 w-[50%]">
+              <button className="btn btn-ghost rounded-4xl bg-teal-400 text-white hover:border-teal-700 hover:bg-teal-200/90 w-[50%]">
                 Get Started
               </button>
             </div>
