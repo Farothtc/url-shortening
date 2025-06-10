@@ -120,9 +120,15 @@ export default function Home() {
           )}
         </div>
       </section>
-      <section className="bg-[#f0f1f6]">
+      <section
+        style={{
+          background:
+            "linear-gradient(to bottom, #fff 0%, #fff 50%, #f0f1f6 50%, #f0f1f6 100%)",
+        }}
+        className="flex flex-col justify-center items-center"
+      >
         {/* URL Shortening Part */}
-        <div className="absolute left-1/2 -translate-x-1/2 top-[85%] md:top-[77%] md:w-[65%] z-10 bg-[#3a3053] rounded-lg">
+        <div className=" w-[90%] h-44 sm:h-auto md:w-[65%] z-10 bg-[#3a3053] rounded-lg">
           <div
             className={`${
               isMobile
@@ -131,7 +137,7 @@ export default function Home() {
             }`}
           >
             <div className="card-body flex justify-center items-center">
-              <div className="flex justify-center items-center gap-5 w-full px-10">
+              <div className="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-5 w-full sm:px-10">
                 <div className="flex flex-col justify-start items-start w-full">
                   <fieldset className="fieldset w-full">
                     <input
@@ -144,14 +150,14 @@ export default function Home() {
                       className="input w-full h-12 bg-white placeholder-gray-400 placeholder:tracking-wider placeholder:ps-3 text-black"
                     />
                     {error && !inputUrl && (
-                      <p className="absolute top-[75%] label text-red-500 italic tracking-widest">
+                      <p className="sm:absolute sm:top-[75%] label text-red-500 italic tracking-widest">
                         {error}
                       </p>
                     )}
                   </fieldset>
                 </div>
                 <button
-                  className="btn btn-ghost rounded-lg bg-teal-400 text-white hover:bg-teal-200/90 hover:border-teal-700 w-40 h-12 tracking-widest"
+                  className="btn btn-ghost rounded-lg bg-teal-400 text-white hover:bg-teal-200/90 hover:border-teal-700 w-full sm:w-40 h-12 tracking-widest"
                   onClick={connectAPI}
                 >
                   Shorten It!
@@ -160,15 +166,19 @@ export default function Home() {
             </div>
           </div>
         </div>
-        {urlChunk.length > 0 && (
-          <div className="mx-auto pt-25 w-[65%] flex flex-col gap-4">
+      </section>
+      {urlChunk.length > 0 && (
+        <div className="bg-[#f0f1f6] pt-5">
+          <div className="mx-auto h-44 w-[90%] sm:h-auto md:w-[65%] flex flex-col gap-4 ">
             {urlChunk.map((item, idx) => (
               <div key={idx} className="card w-full h-22 bg-white card-md">
-                <div className="card-body flex justify-center items-center">
-                  <div className="flex justify-between items-center w-full">
+                <div className="card-body flex justify-center items-center p-0 sm:p-6">
+                  <div className="flex flex-col sm:flex-row justify-between items-center w-full">
                     <div className="text-black break-all">{item.input}</div>
-                    <div className="flex justify-center items-center gap-5">
-                      <div className="text-black break-all">{item.short}</div>
+                    <div className="flex flex-col sm:flex-row justify-center items-center sm:gap-5">
+                      <div className="break-all text-teal-400">
+                        {item.short}
+                      </div>
                       <button
                         className={`btn btn-ghost rounded-lg w-24 h-10 tracking-widest ${
                           copiedIdx === idx
@@ -189,7 +199,9 @@ export default function Home() {
               </div>
             ))}
           </div>
-        )}
+        </div>
+      )}
+      <section className="bg-[#f0f1f6]">
         {/* Statistics Part */}
         <div className="flex flex-col justify-center items-center gap-5">
           <h1 className=" text-4xl text-black pt-44 font-bold">
