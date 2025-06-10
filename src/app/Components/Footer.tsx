@@ -1,5 +1,31 @@
+"use client";
 import Image from "next/image";
+import { useState } from "react";
 export default function Footer() {
+  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+  const allClass = "link hover:text-teal-400 no-underline";
+  const icons = [
+    {
+      default: "/icon-facebook.svg",
+      active: "/icon-facebook-active.svg",
+      alt: "Facebook",
+    },
+    {
+      default: "/icon-twitter.svg",
+      active: "/icon-twitter-active.svg",
+      alt: "Twitter",
+    },
+    {
+      default: "/icon-pinterest.svg",
+      active: "/icon-pinterest-active.svg",
+      alt: "Pinterest",
+    },
+    {
+      default: "/icon-instagram.svg",
+      active: "/icon-instagram-active.svg",
+      alt: "Instagram",
+    },
+  ];
   return (
     <footer className="footer container mx-auto sm:footer-horizontal bg-[#232027] p-10">
       <aside>
@@ -12,52 +38,36 @@ export default function Footer() {
       </aside>
       <nav>
         <h6 className="footer-title text-white">Features</h6>
-        <a className="link link-hover">Link Shortening</a>
-        <a className="link link-hover">Branded Links</a>
-        <a className="link link-hover">Analytics</a>
+        <a className={`${allClass}`}>Link Shortening</a>
+        <a className={`${allClass}`}>Branded Links</a>
+        <a className={`${allClass}`}>Analytics</a>
       </nav>
       <nav>
         <h6 className="footer-title text-white">Resources</h6>
-        <a className="link link-hover">Blog</a>
-        <a className="link link-hover">Developers</a>
-        <a className="link link-hover">Support</a>
+        <a className={`${allClass}`}>Blog</a>
+        <a className={`${allClass}`}>Developers</a>
+        <a className={`${allClass}`}>Support</a>
       </nav>
       <nav>
         <h6 className="footer-title">Company</h6>
-        <a className="link link-hover">About</a>
-        <a className="link link-hover">Our Team</a>
-        <a className="link link-hover">Careers</a>
-        <a className="link link-hover">Contact</a>
+        <a className={`${allClass}`}>About</a>
+        <a className={`${allClass}`}>Our Team</a>
+        <a className={`${allClass}`}>Careers</a>
+        <a className={`${allClass}`}>Contact</a>
       </nav>
       <nav className="flex gap-5">
-        <Image
-          src={"/icon-facebook.svg"}
-          alt="icon"
-          width={24}
-          height={24}
-          className="cursor-pointer"
-        ></Image>
-        <Image
-          src={"/icon-twitter.svg"}
-          alt="icon"
-          width={24}
-          height={24}
-          className="cursor-pointer"
-        ></Image>
-        <Image
-          src={"/icon-pinterest.svg"}
-          alt="icon"
-          width={24}
-          height={24}
-          className="cursor-pointer"
-        ></Image>
-        <Image
-          src={"/icon-instagram.svg"}
-          alt="icon"
-          width={24}
-          height={24}
-          className="cursor-pointer"
-        ></Image>
+        {icons.map((icon, idx) => (
+          <Image
+            key={icon.alt}
+            src={hoveredIdx === idx ? icon.active : icon.default}
+            alt={icon.alt}
+            width={24}
+            height={24}
+            className="cursor-pointer"
+            onMouseEnter={() => setHoveredIdx(idx)}
+            onMouseLeave={() => setHoveredIdx(null)}
+          ></Image>
+        ))}
       </nav>
     </footer>
   );
