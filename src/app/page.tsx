@@ -5,15 +5,28 @@ import StatisticCard from "./Components/StatisticCard";
 import CardData from "./Data/CardData";
 import Footer from "./Components/Footer";
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Home() {
   const [inputUrl, setInputUrl] = useState("");
+  const [activDrop, setActivDrop] = useState(false);
   const [error, setError] = useState("");
   const [urlChunk, setUrlChunk] = useState<{ input: string; short: string }[]>(
     []
   );
   const [copiedIdx, setCopiedIdx] = useState<number | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const connectAPI = async () => {
     try {
@@ -30,38 +43,93 @@ export default function Home() {
     }
   };
 
+  const handleDrop = () => {
+    setActivDrop(!activDrop);
+  };
+
   return (
     <main className="min-h-screen">
-      <section className="bg-white">
-        <Nav />
+      <section className="relative bg-white">
+        <Nav isMobile={isMobile} handleDrop={handleDrop} />
+        {activDrop && isMobile && (
+          <div className="absolute left-1/2 -translate-x-1/2 text-black w-[90%]">
+            <div className="card w-full bg-[#3a3053] card-lg shadow-sm">
+              <div className="card-body flex justify-center items-center text-white gap-5">
+                <h2 className="card-title cursor-pointer">Features</h2>
+                <h2 className="card-title cursor-pointer">Pricing</h2>
+                <h2 className="card-title cursor-pointer">Resources</h2>
+                <hr className="text-gray-500 w-full" />
+                <h2 className="card-title cursor-pointer">Login</h2>
+                <button className="btn btn-ghost rounded-full text-xl w-full bg-teal-400 hover:bg-teal-200/90">
+                  Sign Up
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Landing begin */}
         <div className="container mx-auto flex justify-between items-center pt-15 pb-35">
-          <div className="flex-1 flex flex-col gap-3">
-            <h1 className="text-black text-7xl font-extrabold">
-              More than just <br /> shorter links
-            </h1>
-            <h2 className="text-gray-400 text-xl tracking-wide">
-              Build your brand&apos;s recognition and get detailed <br />{" "}
-              insights on how your links are performing.
-            </h2>
-            <button className="btn btn-ghost rounded-4xl bg-teal-400 text-white hover:border-teal-700 hover:bg-teal-200/90 w-40 tracking-widest mt-3">
-              Get Started
-            </button>
-          </div>
-          <div className="flex-1 flex justify-end">
-            <Image
-              src={"/illustration-working.svg"}
-              alt="Working"
-              width={733}
-              height={482}
-            />
-          </div>
+          {isMobile ? (
+            <section className="flex flex-col justify-center items-center">
+              <div>
+                <Image
+                  src={"/illustration-working.svg"}
+                  alt="Working"
+                  width={733}
+                  height={482}
+                  className="ms-15"
+                ></Image>
+              </div>
+              <div className="flex flex-col justify-center items-center pt-10 gap-5">
+                <h1 className="text-black text-center text-4xl font-extrabold">
+                  More than just <br /> shorter links
+                </h1>
+                <h2 className="text-gray-400 text-lg text-center">
+                  Build your brand&apos;s recognition and get detailed insights
+                  on how your links are performing.
+                </h2>
+                <button className="btn btn-ghost rounded-4xl bg-teal-400 text-white hover:border-teal-700 hover:bg-teal-200/90 w-40 tracking-widest mt-3">
+                  Get Started
+                </button>
+              </div>
+            </section>
+          ) : (
+            <>
+              <div className="flex-1 flex flex-col gap-3">
+                <h1 className="text-black text-7xl font-extrabold">
+                  More than just <br /> shorter links
+                </h1>
+                <h2 className="text-gray-400 text-xl tracking-wide">
+                  Build your brand&apos;s recognition and get detailed <br />{" "}
+                  insights on how your links are performing.
+                </h2>
+                <button className="btn btn-ghost rounded-4xl bg-teal-400 text-white hover:border-teal-700 hover:bg-teal-200/90 w-40 tracking-widest mt-3">
+                  Get Started
+                </button>
+              </div>
+              <div className="flex-1 flex justify-end">
+                <Image
+                  src={"/illustration-working.svg"}
+                  alt="Working"
+                  width={733}
+                  height={482}
+                />
+              </div>
+            </>
+          )}
         </div>
       </section>
       <section className="bg-[#f0f1f6]">
         {/* URL Shortening Part */}
-        <div className="absolute left-1/2 -translate-x-1/2 top-[77%] w-[65%] z-10 bg-[#3a3053] rounded-lg">
-          <div className="card w-full h-32 bg-[url('/bg-shorten-desktop.svg')] card-md ">
+        <div className="absolute left-1/2 -translate-x-1/2 top-[85%] md:top-[77%] md:w-[65%] z-10 bg-[#3a3053] rounded-lg">
+          <div
+            className={`${
+              isMobile
+                ? "card w-full h-32 bg-[url('/bg-shorten-mobile.svg')] bg-cover card-md "
+                : "card w-full h-32 bg-[url('/bg-shorten-desktop.svg')] card-md "
+            }`}
+          >
             <div className="card-body flex justify-center items-center">
               <div className="flex justify-center items-center gap-5 w-full px-10">
                 <div className="flex flex-col justify-start items-start w-full">
