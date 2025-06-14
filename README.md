@@ -7,7 +7,9 @@ This is a project that aims to make URLs shorter.
 - Next.js,
 - TypeScript,
 - Tailwind CSS,
-- daisyUI.
+- daisyUI,
+- Next.js API Routes,
+- Axios.
 
 ### Used Methods/Hooks:
 
