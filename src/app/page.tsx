@@ -72,13 +72,13 @@ export default function Home() {
         <div className="container mx-auto flex justify-between items-center pt-15 pb-35">
           {isMobile ? (
             <section className="flex flex-col justify-center items-center">
-              <div>
+              <div className="overflow-hidden">
                 <Image
                   src={"/illustration-working.svg"}
                   alt="Working"
                   width={733}
                   height={482}
-                  className="ms-15"
+                  className="ms-15 "
                 ></Image>
               </div>
               <div className="flex flex-col justify-center items-center pt-10 gap-5">
@@ -97,10 +97,10 @@ export default function Home() {
           ) : (
             <>
               <div className="flex-1 flex flex-col gap-3">
-                <h1 className="text-black text-7xl font-extrabold">
+                <h1 className="text-black text-5xl md:text-7xl font-extrabold">
                   More than just <br /> shorter links
                 </h1>
-                <h2 className="text-gray-400 text-xl tracking-wide">
+                <h2 className="text-gray-400 text-base md:text-xl tracking-wide">
                   Build your brand&apos;s recognition and get detailed <br />{" "}
                   insights on how your links are performing.
                 </h2>
@@ -169,18 +169,22 @@ export default function Home() {
       </section>
       {urlChunk.length > 0 && (
         <div className="bg-[#f0f1f6] pt-5">
-          <div className="mx-auto h-44 w-[90%] sm:h-auto md:w-[65%] flex flex-col gap-4 ">
+          <div className="mx-auto h-auto w-[90%] xl:h-auto md:w-[65%] flex flex-col gap-4 ">
             {urlChunk.map((item, idx) => (
-              <div key={idx} className="card w-full h-22 bg-white card-md">
-                <div className="card-body flex justify-center items-center p-0 sm:p-6">
-                  <div className="flex flex-col sm:flex-row justify-between items-center w-full">
-                    <div className="text-black break-all">{item.input}</div>
-                    <div className="flex flex-col sm:flex-row justify-center items-center sm:gap-5">
-                      <div className="break-all text-teal-400">
+              <div key={idx} className="card w-full h-auto bg-white card-md">
+                <div className="card-body flex justify-center items-center p-0 xl:p-6">
+                  <div className="flex flex-col xl:flex-row justify-start items-start xl:justify-between xl:items-center w-full">
+                    <div className="text-black break-all p-3 sm:p-6 xl:ps-0">
+                      {item.input}
+                    </div>
+                    <hr className="text-gray-500 w-full xl:hidden" />
+
+                    <div className="flex flex-col sm:items-center xl:flex-row xl:gap-5 w-full xl:w-auto">
+                      <div className="break-all text-teal-400 p-3 sm:p-6 self-start xl:self-center xl:p-0">
                         {item.short}
                       </div>
                       <button
-                        className={`btn btn-ghost rounded-lg w-24 h-10 tracking-widest ${
+                        className={`btn btn-ghost rounded-lg w-[90%] mb-5 xl:mb-0 xl:w-24 h-10 self-center tracking-widest ${
                           copiedIdx === idx
                             ? "bg-black text-white"
                             : "bg-teal-400 text-white hover:border-teal-700 hover:bg-teal-200/90"
@@ -204,15 +208,30 @@ export default function Home() {
       <section className="bg-[#f0f1f6]">
         {/* Statistics Part */}
         <div className="flex flex-col justify-center items-center gap-5">
-          <h1 className=" text-4xl text-black pt-44 font-bold">
+          <h1 className=" text-3xl sm:text-4xl text-black pt-15 sm:pt-44 font-bold">
             Advanced Statistics
           </h1>
-          <h2 className="text-gray-400 text-center">
-            Track how your links are performing across the web with <br /> our
-            advanced statistics dashboard.
-          </h2>
-          <div className="relative flex py-30 gap-5">
-            <div className="absolute top-1/2 left-0 w-full h-2 bg-teal-400 -translate-y-1/2 z-0" />
+          {isMobile ? (
+            <h2 className="text-gray-400 text-center px-6">
+              Track how your links are performing across the web with our
+              advanced statistics dashboard.
+            </h2>
+          ) : (
+            <h2 className="text-gray-400 text-center">
+              Track how your links are performing across the web with <br /> our
+              advanced statistics dashboard.
+            </h2>
+          )}
+
+          <div className="relative flex flex-col xl:flex-row py-30 gap-15 xl:gap-5">
+            {/* {isMobile ? (
+              <div className="absolute left-1/2 top-[15%] h-[75%] w-2 bg-teal-400 -translate-x-1/2 z-0" />
+            ) : (
+              <div className="absolute top-1/2 left-0 w-full h-2 bg-teal-400 -translate-y-1/2 z-0" />
+            )} */}
+            <div className="absolute left-1/2 top-[15%] h-[75%] w-2 bg-teal-400 -translate-x-1/2 z-0 xl:hidden" />
+            <div className="absolute top-1/2 left-0 w-full h-2 bg-teal-400 -translate-y-1/2 z-0 hidden xl:block" />
+
             {CardData.map((e) => (
               <StatisticCard key={e.id} e={e} />
             ))}
@@ -223,10 +242,10 @@ export default function Home() {
         <div className="flex justify-center items-center">
           <div className="card w-full h-[250px] bg-[url('/bg-boost-desktop.svg')] bg-cover card-xl shadow-sm flex justify-center items-center">
             <div className="card-body flex justify-center items-center gap-5">
-              <h2 className="card-title text-3xl font-extrabold">
+              <h2 className="card-title text-2xl text-center w-full sm:font-extrabold sm:text-3xl font-semibold">
                 Boost your links today
               </h2>
-              <button className="btn btn-ghost rounded-4xl bg-teal-400 text-white hover:border-teal-700 hover:bg-teal-200/90 w-[50%]">
+              <button className="btn btn-ghost rounded-4xl bg-teal-400 text-white hover:border-teal-700 hover:bg-teal-200/90 w-[60%] sm:text-sm text-base sm:w-[50%]">
                 Get Started
               </button>
             </div>
@@ -234,7 +253,7 @@ export default function Home() {
         </div>
       </section>
       <section className="bg-[#232027]">
-        <Footer />
+        <Footer isMobile={isMobile} />
       </section>
     </main>
   );
