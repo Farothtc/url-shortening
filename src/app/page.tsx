@@ -40,6 +40,7 @@ export default function Home() {
       ]);
     } catch (err) {
       setError("Operation failed.");
+      console.log(err);
     }
   };
 

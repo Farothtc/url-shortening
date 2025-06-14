@@ -5,7 +5,6 @@ type StatisticCardProps = {
   e: Card;
 };
 export default function StatisticCard({ e }: StatisticCardProps) {
-  const firstCard = 0;
   const secondCard = 1;
   const thirdCard = 2;
   return (
