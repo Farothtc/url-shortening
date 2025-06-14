@@ -1,4 +1,4 @@
-## Shortly - A Site That Shortens URL's
+## Shortly - A Site That Shortens URLs
 
 This is a project that aims to make URLs shorter.
 
