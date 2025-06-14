@@ -21,4 +21,4 @@ This is a project that aims to make URLs shorter.
 - POST API route,
 - POST method.
 
-Check it out on [here](https://conference-ticket-gen-brown.vercel.app) !
+Check it out on [here](https://url-shortening-peach.vercel.app) !
